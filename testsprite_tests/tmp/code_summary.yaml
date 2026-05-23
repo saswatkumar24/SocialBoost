@@ -1,0 +1,139 @@
+version: "2"
+type: frontend
+tech_stack:
+  - TypeScript
+  - Next.js App Router
+  - React 19
+  - Tailwind CSS
+routes:
+  - path: /
+    file: app/page.tsx
+    auth_required: false
+    description: Marketing landing page with hero, features, pricing, FAQ
+  - path: /sign-in
+    file: app/(auth)/sign-in/page.tsx
+    auth_required: false
+    description: Email and password sign-in
+  - path: /sign-up
+    file: app/(auth)/sign-up/page.tsx
+    auth_required: false
+    description: New account registration
+  - path: /app
+    file: app/app/page.tsx
+    auth_required: true
+    description: Authenticated dashboard home
+  - path: /app/content
+    file: app/app/content/page.tsx
+    auth_required: true
+    description: Content board and drafts
+  - path: /app/preferences
+    file: app/app/preferences/page.tsx
+    auth_required: true
+    description: Creator preferences shortcut
+  - path: /app/schedule
+    file: app/app/schedule/page.tsx
+    auth_required: true
+    description: Post scheduling queue and composer
+  - path: /app/settings
+    file: app/app/settings/page.tsx
+    auth_required: true
+    description: Settings hub
+  - path: /app/settings/preferences
+    file: app/app/settings/preferences/page.tsx
+    auth_required: true
+    description: Detailed preferences form
+  - path: /app/settings/connections
+    file: app/app/settings/connections/page.tsx
+    auth_required: true
+    description: LinkedIn connection management
+features:
+  - name: Landing page navigation
+    description: Browse marketing site sections and CTAs from the home page
+    files:
+      - app/page.tsx
+      - app/components/Navbar.tsx
+      - app/components/Hero.tsx
+    entry_route: /
+    user_interactions:
+      - Scroll through hero and feature sections
+      - Use navbar links to navigate within the page
+      - Open sign-in or sign-up from marketing CTAs
+    api_calls: []
+    auth_required: false
+  - name: Sign in
+    description: Authenticate with email and password via server action
+    files:
+      - app/(auth)/sign-in/sign-in-form.tsx
+      - app/(auth)/actions.ts
+    entry_route: /sign-in
+    user_interactions:
+      - Enter email in the email field
+      - Enter password in the password field
+      - Submit the sign-in form
+      - Observe validation or error alerts on failure
+    api_calls: []
+    auth_required: false
+  - name: Sign up
+    description: Register a new account
+    files:
+      - app/(auth)/sign-up/sign-up-form.tsx
+      - app/(auth)/actions.ts
+    entry_route: /sign-up
+    user_interactions:
+      - Complete registration fields
+      - Submit the sign-up form
+      - Handle success redirect or displayed errors
+    api_calls: []
+    auth_required: false
+  - name: Protected dashboard shell
+    description: Authenticated app layout with navigation between areas
+    files:
+      - app/app/layout.tsx
+      - app/app/_components/AppShell.tsx
+    entry_route: /app
+    user_interactions:
+      - Load dashboard after authentication
+      - Navigate between Content, Schedule, Settings via shell navigation
+      - Confirm unauthenticated users redirect to sign-in
+    api_calls: []
+    auth_required: true
+  - name: Content workspace
+    description: Manage topic ideas and draft content
+    files:
+      - app/app/content/page.tsx
+      - app/app/content/content-board.tsx
+    entry_route: /app/content
+    user_interactions:
+      - View the content board
+      - Open or interact with draft UI elements
+    api_calls: []
+    auth_required: true
+  - name: Schedule posts
+    description: Configure schedule and compose queued posts
+    files:
+      - app/app/schedule/page.tsx
+      - app/app/schedule/_components/queue-board.tsx
+      - app/app/schedule/_components/composer.tsx
+    entry_route: /app/schedule
+    user_interactions:
+      - Review scheduling UI and queue
+      - Interact with composer or configuration controls where visible
+    api_calls: []
+    auth_required: true
+  - name: LinkedIn connections
+    description: Connect or manage LinkedIn from settings
+    files:
+      - app/app/settings/connections/page.tsx
+      - app/app/settings/connections/connections-panel.tsx
+    entry_route: /app/settings/connections
+    user_interactions:
+      - View connection status and actions
+      - Start connect flow when available
+    api_calls:
+      - method: GET
+        endpoint: /api/linkedin/connect
+    auth_required: true
+known_limitations:
+  - issue: Full OAuth and InsForge-backed flows require real credentials and environment configuration
+    location: lib/auth.ts, app/api/
+    impact: Automated tests may skip or mock external auth unless credentials are provided

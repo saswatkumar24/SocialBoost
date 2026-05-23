@@ -1,0 +1,1018 @@
+[
+  {
+    "id": "TC001",
+    "title": "Block signed-out access to the app shell",
+    "description": "This verifies that a visitor who tries to open the authenticated app is sent to authentication instead of the protected workspace.",
+    "category": "Protected app shell and routing",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /app"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the sign-in page is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the authenticated app shell is not displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "Sign in with valid credentials",
+    "description": "This verifies that a returning creator can sign in with email and password and reach the authenticated app experience.",
+    "category": "Sign in",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the authenticated app dashboard is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "Register a new account and enter the authenticated workspace",
+    "description": "This verifies that a new creator can complete registration and reach the authenticated experience.",
+    "category": "Sign up",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-up"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with creator+new@example.com"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with a valid password"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the confirm password field with the same valid password"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-up form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the authenticated app dashboard is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Enter the authenticated app from the landing page",
+    "description": "This verifies that a visitor can sign in from the marketing site and reach the authenticated app home.",
+    "category": "Protected app shell and routing",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the sign-in entry point"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the authenticated dashboard is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the app shell navigation is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC005",
+    "title": "Explore the landing page and open authentication entry points",
+    "description": "This verifies that a visitor can browse the marketing page and reach the sign-in and sign-up entry points from the landing experience.",
+    "category": "Landing page navigation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll through the landing page content"
+      },
+      {
+        "type": "action",
+        "description": "Click a navigation link to jump within the page"
+      },
+      {
+        "type": "action",
+        "description": "Click the sign-in call to action"
+      },
+      {
+        "type": "action",
+        "description": "Click the landing page entry point for account creation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the authentication entry pages are accessible from the marketing site"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "Access the content workspace from the authenticated shell",
+    "description": "This verifies that a signed-in user can open the content workspace and see it within the protected app layout.",
+    "category": "Protected app shell and routing",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the content section from the app navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the content workspace is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the protected app shell remains visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC007",
+    "title": "Access the schedule workspace from the authenticated shell",
+    "description": "This verifies that a signed-in user can open the schedule workspace and see it within the protected app layout.",
+    "category": "Protected app shell and routing",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the schedule section from the app navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the scheduling workspace is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the protected app shell remains visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC008",
+    "title": "Access settings from the authenticated shell",
+    "description": "This verifies that a signed-in user can open the settings hub and see it within the protected app layout.",
+    "category": "Protected app shell and routing",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the settings section from the app navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the settings hub is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the protected app shell remains visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC009",
+    "title": "Review the scheduling queue",
+    "description": "This verifies that an authenticated user can open the schedule workspace and see queued posts or scheduling content.",
+    "category": "Schedule posts",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the schedule section from the app navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the scheduling queue is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify scheduling controls or composer content is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC010",
+    "title": "Enter LinkedIn connections from the app shell",
+    "description": "A signed-in creator can navigate from the authenticated app shell to LinkedIn connections in settings without leaving the workspace.",
+    "category": "LinkedIn connections",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in {{LOGIN_USER}} into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Fill in {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Click the settings navigation link"
+      },
+      {
+        "type": "action",
+        "description": "Click the link to manage connections"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the settings connections page is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the authenticated app shell remains accessible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC011",
+    "title": "Review a draft in the content workspace",
+    "description": "This verifies that an authenticated user can open the content board and inspect a draft element in the workspace.",
+    "category": "Content workspace",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the content section from the app navigation"
+      },
+      {
+        "type": "action",
+        "description": "Open a draft or topic item from the board"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the draft workspace is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the selected draft content is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC012",
+    "title": "View LinkedIn connection status in settings",
+    "description": "An authenticated user can open LinkedIn connections in settings and see the current connection status and available actions.",
+    "category": "LinkedIn connections",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in {{LOGIN_USER}} into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Fill in {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Click the settings navigation link"
+      },
+      {
+        "type": "action",
+        "description": "Click the link to manage connections"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the LinkedIn connection status is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify connection actions are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC013",
+    "title": "Adjust schedule inputs and see the workspace update",
+    "description": "This verifies that an authenticated user can change visible scheduling inputs and see the schedule workspace reflect the change.",
+    "category": "Schedule posts",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the schedule section from the app navigation"
+      },
+      {
+        "type": "action",
+        "description": "Select a visible scheduling option"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the scheduling workspace updates to reflect the change"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the queue or preview remains visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC014",
+    "title": "Open the LinkedIn connection settings from the app",
+    "description": "This verifies that a signed-in user can reach the LinkedIn connection management page from settings.",
+    "category": "Protected app shell and routing",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the connections page from settings"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the LinkedIn connection management page is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the protected app shell remains visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC015",
+    "title": "Start the LinkedIn connect flow from settings",
+    "description": "An authenticated user can start the LinkedIn connect flow from settings and reach the provider consent flow when the connection is available.",
+    "category": "LinkedIn connections",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in {{LOGIN_USER}} into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Fill in {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Click the settings navigation link"
+      },
+      {
+        "type": "action",
+        "description": "Click the link to manage connections"
+      },
+      {
+        "type": "action",
+        "description": "Start the LinkedIn connect flow"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the provider consent flow is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC016",
+    "title": "Open the LinkedIn connection page from settings and see its status",
+    "description": "This verifies that an authenticated creator can inspect LinkedIn connection status from the settings area.",
+    "category": "Settings navigation and LinkedIn connections",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the settings section from the app navigation"
+      },
+      {
+        "type": "action",
+        "description": "Open the connections page from settings"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify LinkedIn connection status information is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify connection actions are available"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC017",
+    "title": "Open the detailed preferences form from the app",
+    "description": "This verifies that a signed-in user can reach the detailed preferences form from the authenticated workspace.",
+    "category": "Protected app shell and routing",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the detailed preferences page from the app"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the detailed preferences form is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the protected app shell remains visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC018",
+    "title": "Recover LinkedIn connection from settings",
+    "description": "An authenticated user can follow the recovery path from a disconnected or expired LinkedIn status and begin reconnecting from settings.",
+    "category": "LinkedIn connections",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in {{LOGIN_USER}} into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Fill in {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Click the settings navigation link"
+      },
+      {
+        "type": "action",
+        "description": "Click the link to manage connections"
+      },
+      {
+        "type": "action",
+        "description": "Click the reconnect LinkedIn action"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the reconnection flow is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC019",
+    "title": "Open the creator preferences shortcut page",
+    "description": "This verifies that a signed-in user can access the preferences shortcut page from the authenticated workspace.",
+    "category": "Protected app shell and routing",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the preferences shortcut page from the app"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the creator preferences shortcut page is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the protected app shell remains visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC020",
+    "title": "See guidance for a disconnected LinkedIn account",
+    "description": "An authenticated user with a disconnected LinkedIn account can open connections settings and see recovery guidance to reconnect.",
+    "category": "LinkedIn connections",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in {{LOGIN_USER}} into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Fill in {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Click the settings navigation link"
+      },
+      {
+        "type": "action",
+        "description": "Click the link to manage connections"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify disconnected account guidance is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify reconnect actions are displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC021",
+    "title": "Follow empty-state guidance in the content workspace",
+    "description": "This verifies that an authenticated user sees guidance when the content workspace has no drafts to review.",
+    "category": "Content workspace",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the content section from the app navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an empty state or first-run guidance is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify content drafting guidance is available"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC022",
+    "title": "Keep LinkedIn connection status visible after returning to settings",
+    "description": "An authenticated user can revisit connections after navigating elsewhere in the app and still see the current LinkedIn status.",
+    "category": "LinkedIn connections",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in {{LOGIN_USER}} into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Fill in {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Click the content navigation link"
+      },
+      {
+        "type": "action",
+        "description": "Click the settings navigation link"
+      },
+      {
+        "type": "action",
+        "description": "Click the link to manage connections"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the LinkedIn connection status is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC023",
+    "title": "Show validation for mismatched or weak sign-up passwords",
+    "description": "This verifies that registration blocks invalid password input and shows form validation feedback.",
+    "category": "Sign up",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-up"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with creator+validation@example.com"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with a weak password"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the confirm password field with a different password"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-up form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify password validation feedback is visible"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC024",
+    "title": "See validation when scheduling without required content",
+    "description": "This verifies that the schedule form shows readable validation feedback when a user tries to submit without required content.",
+    "category": "Schedule posts",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the schedule section from the app navigation"
+      },
+      {
+        "type": "action",
+        "description": "Leave the required content empty"
+      },
+      {
+        "type": "action",
+        "description": "Submit the schedule form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a schedule validation error is displayed"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC025",
+    "title": "Show validation when sign-in fields are incomplete",
+    "description": "This verifies that sign-in prevents submission when required fields are blank and shows field-level validation feedback.",
+    "category": "Sign in",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form without entering credentials"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify required field validation is visible"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC026",
+    "title": "See validation when scheduling a past time",
+    "description": "This verifies that the schedule form rejects an invalid past time and shows readable validation feedback.",
+    "category": "Schedule posts",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the schedule section from the app navigation"
+      },
+      {
+        "type": "action",
+        "description": "Select a past time in the schedule controls"
+      },
+      {
+        "type": "action",
+        "description": "Submit the schedule form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a time validation error is displayed"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC027",
+    "title": "Reject an invalid email on sign-in",
+    "description": "This verifies that sign-in shows email format validation when a visitor enters an invalid address.",
+    "category": "Sign in",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-in"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with invalid-email"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an email validation error is visible"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC028",
+    "title": "Show validation for an invalid sign-up email",
+    "description": "This verifies that registration shows field-level feedback when the email address is not valid.",
+    "category": "Sign up",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sign-up"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with invalid-email"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with a valid password"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the confirm password field with the same valid password"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-up form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an email validation error is visible"
+      }
+    ],
+    "priority": "Low"
+  }
+]

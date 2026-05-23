@@ -1,0 +1,25 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:3000",
+  "loginUser": "astro@astro.com",
+  "loginPassword": "ipeejmca",
+  "executionArgs": {
+    "projectName": "autolinkedin",
+    "projectPath": "/Users/astro/Desktop/autolinkedin",
+    "testIds": [
+      "TC001",
+      "TC005",
+      "TC002",
+      "TC006",
+      "TC007"
+    ],
+    "additionalInstruction": "",
+    "serverMode": "development",
+    "envs": {
+      "API_KEY": "sk-user-zD2CLDq5KJK7fHXlXYnVRiDeXbe9wNyX2P1tYMgBFEug0Hdt-lu7xvvgpF2OoMvVtYJ3qL8LSQjLvojmw9loBpe6ClaKKqyNHMTaU63t-SHt5WN1SmlWXkP2XXAP4qEfhu0"
+    }
+  },
+  "serverPort": 51958
+}
