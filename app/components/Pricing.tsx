@@ -81,7 +81,7 @@ export default function Pricing() {
               Public Beta Special
             </span>
 
-            <h3 className="mt-6 text-2xl font-bold text-white">Coming Soon — Currently Free for Everyone</h3>
+            <h3 className="mt-6 text-2xl font-bold text-white">Coming Soon — Now Free for Everything</h3>
             <p className="mt-3 text-sm text-slate-400 max-w-lg mx-auto">
               Our standard plans are coming soon. In the meantime, sign up now to get full access to unlimited drafts, autopilot scheduling slots, and AI voice matching.
             </p>

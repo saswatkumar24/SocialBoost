@@ -125,10 +125,10 @@ export default function Hero() {
               <CheckIcon /> No credit card required
             </span>
             <span className="flex items-center gap-1.5">
-              <CheckIcon /> 14-day free trial
+              <CheckIcon /> 100% Free during Beta
             </span>
             <span className="flex items-center gap-1.5">
-              <CheckIcon /> Cancel anytime
+              <CheckIcon /> Instant setup
             </span>
           </div>
         </div>

@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { href: "#showcase", label: "AI Studio" },
   { href: "#pricing", label: "Pricing" },
   { href: "#faq", label: "FAQ" },
+  { href: "#contact", label: "Contact" },
 ];
 
 export default function Navbar() {
