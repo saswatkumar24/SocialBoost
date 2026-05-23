@@ -32,17 +32,29 @@ function requireEnv(name: string): string {
   return value;
 }
 
-export function getRedirectUri(): string {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+export async function getRedirectUri(): Promise<string> {
+  let appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  try {
+    const { headers } = await import("next/headers");
+    const headersList = await headers();
+    const host = headersList.get("host") || headersList.get("x-forwarded-host");
+    if (host && !host.includes("localhost") && !host.includes("127.0.0.1")) {
+      const protocol = headersList.get("x-forwarded-proto") || "https";
+      appUrl = `${protocol}://${host}`;
+    }
+  } catch (e) {
+    // Ignore error in static compilation context
+  }
   return `${appUrl.replace(/\/$/, "")}${REDIRECT_PATH}`;
 }
 
-export function buildAuthUrl(state: string): string {
+export async function buildAuthUrl(state: string): Promise<string> {
   const clientId = requireEnv("LINKEDIN_CLIENT_ID");
+  const redirectUri = await getRedirectUri();
   const params = new URLSearchParams({
     response_type: "code",
     client_id: clientId,
-    redirect_uri: getRedirectUri(),
+    redirect_uri: redirectUri,
     scope: LINKEDIN_SCOPES,
     state,
   });
@@ -84,10 +96,12 @@ export async function exchangeCode(
   const clientId = requireEnv("LINKEDIN_CLIENT_ID");
   const clientSecret = requireEnv("LINKEDIN_CLIENT_SECRET");
 
+  const redirectUri = await getRedirectUri();
+
   const result = await postForm(TOKEN_URL, {
     grant_type: "authorization_code",
     code,
-    redirect_uri: getRedirectUri(),
+    redirect_uri: redirectUri,
     client_id: clientId,
     client_secret: clientSecret,
   });

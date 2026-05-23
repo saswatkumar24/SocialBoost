@@ -66,7 +66,10 @@ export default function RootLayout({
           data-blockingmode="auto"
         />
       </head>
-      <body className="min-h-full flex flex-col bg-background text-foreground selection:bg-indigo-500/40">
+      <body
+        className="min-h-full flex flex-col bg-background text-foreground selection:bg-indigo-500/40"
+        suppressHydrationWarning
+      >
         {children}
       </body>
     </html>

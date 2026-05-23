@@ -118,7 +118,20 @@ export async function signOutAction() {
 
 export async function initiateOAuth(provider: "google" | "github", next?: string) {
   const insforge = createInsForgeServerClient();
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  
+  let appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  try {
+    const { headers } = await import("next/headers");
+    const headersList = await headers();
+    const host = headersList.get("host") || headersList.get("x-forwarded-host");
+    if (host && !host.includes("localhost") && !host.includes("127.0.0.1")) {
+      const protocol = headersList.get("x-forwarded-proto") || "https";
+      appUrl = `${protocol}://${host}`;
+    }
+  } catch (e) {
+    // Fallback if headers are not available
+  }
+
   const callbackUrl = new URL("/api/auth/callback", appUrl);
   if (next) callbackUrl.searchParams.set("next", safeNext(next));
 

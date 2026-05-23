@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
   }
 
   const state = randomState();
-  const authUrl = buildAuthUrl(state);
+  const authUrl = await buildAuthUrl(state);
 
   const response = NextResponse.redirect(authUrl);
   response.cookies.set(STATE_COOKIE, state, {
