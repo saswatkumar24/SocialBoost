@@ -59,133 +59,72 @@ export default function Pricing() {
     <section id="pricing" className="relative py-24 sm:py-32 scroll-mt-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <SectionHeader
-          eyebrow="Pricing"
+          eyebrow="Pricing Plan"
           title={
             <>
-              Simple plans.{" "}
-              <span className="gradient-text">Outsized returns.</span>
+              Now 100% Free.{" "}
+              <span className="gradient-text">No paywalls.</span>
             </>
           }
-          description="Start free. Cancel anytime. Most users hit ROI within their first three published posts."
+          description="We are currently in public beta. Enjoy full, unrestricted access to every AI and scheduling feature at zero cost."
         />
 
-        <div className="mt-8 flex justify-center">
-          <div className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1 text-xs">
-            <button className="rounded-full bg-white/10 px-4 py-1.5 font-medium text-white">
-              Monthly
-            </button>
-            <button className="rounded-full px-4 py-1.5 font-medium text-slate-400">
-              Yearly{" "}
-              <span className="ml-1 rounded-full bg-emerald-400/15 px-1.5 py-0.5 text-[10px] text-emerald-300">
-                −20%
-              </span>
-            </button>
-          </div>
-        </div>
-
-        <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-stretch">
-          {TIERS.map((tier) => (
+        <div className="mt-16 max-w-3xl mx-auto">
+          <div className="card-glow relative overflow-hidden rounded-3xl border border-blue-400/30 bg-gradient-to-b from-blue-500/[0.08] to-purple-500/[0.04] p-8 sm:p-10 text-center">
             <div
-              key={tier.name}
-              className={`card-glow relative flex flex-col overflow-hidden rounded-2xl border p-8 ${
-                tier.popular
-                  ? "border-blue-400/40 bg-gradient-to-b from-blue-500/[0.08] to-purple-500/[0.04] lg:scale-[1.02]"
-                  : "border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01]"
-              }`}
-            >
-              {tier.popular && (
-                <>
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute -top-32 right-0 h-64 w-64 rounded-full bg-blue-500/30 blur-[120px]"
-                  />
-                  <div className="absolute right-6 top-6 rounded-full border border-blue-400/40 bg-blue-500/15 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-blue-200">
-                    Most popular
-                  </div>
-                </>
-              )}
+              aria-hidden="true"
+              className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-64 w-96 rounded-full bg-blue-500/20 blur-[120px]"
+            />
+            
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Public Beta Special
+            </span>
 
-              <div>
-                <h3 className="text-base font-semibold text-white">
-                  {tier.name}
-                </h3>
-                <p className="mt-1 text-sm text-slate-400">{tier.description}</p>
-              </div>
+            <h3 className="mt-6 text-2xl font-bold text-white">Coming Soon — Currently Free for Everyone</h3>
+            <p className="mt-3 text-sm text-slate-400 max-w-lg mx-auto">
+              Our standard plans are coming soon. In the meantime, sign up now to get full access to unlimited drafts, autopilot scheduling slots, and AI voice matching.
+            </p>
 
-              <div className="mt-6 flex items-baseline gap-1">
-                <span className="text-5xl font-bold tracking-tight text-white">
-                  {tier.price}
-                </span>
-                <span className="text-sm text-slate-400">{tier.period}</span>
-              </div>
+            <div className="mt-8 flex flex-col items-center justify-center gap-1">
+              <span className="text-5xl font-extrabold tracking-tight text-white">$0</span>
+              <span className="text-xs font-mono uppercase tracking-[0.2em] text-slate-500 mt-1">free forever during beta</span>
+            </div>
 
+            <div className="mt-8 flex justify-center">
               <a
                 href="/sign-up"
-                className={`mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-all btn-shine ${
-                  tier.popular
-                    ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/45"
-                    : "border border-white/15 bg-white/5 text-white hover:bg-white/10"
-                }`}
+                className="btn-shine group inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 shadow-lg shadow-white/10 hover:scale-[1.02] transition-transform"
               >
-                {tier.cta}
-                <svg
-                  className="h-3.5 w-3.5"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M3 8h10m0 0L9 4m4 4l-4 4"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                <span>Get started for free</span>
+                <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h10m0 0L9 4m4 4l-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </a>
-
-              <div className="mt-8 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-              <ul className="mt-6 space-y-3">
-                {tier.features.map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-start gap-2.5 text-sm text-slate-300"
-                  >
-                    <span
-                      className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${
-                        tier.popular
-                          ? "bg-blue-500/20 text-blue-300"
-                          : "bg-white/10 text-emerald-300"
-                      }`}
-                    >
-                      <svg
-                        className="h-2.5 w-2.5"
-                        viewBox="0 0 12 12"
-                        fill="none"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M2 6.5l2.5 2.5L10 3.5"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </span>
-                    <span dangerouslySetInnerHTML={{ __html: f }} />
-                  </li>
-                ))}
-              </ul>
             </div>
-          ))}
-        </div>
 
-        <p className="mt-10 text-center text-xs text-slate-400">
-          All prices in USD · 14-day free trial on every plan · No credit card
-          required
-        </p>
+            <div className="mt-10 border-t border-white/5 pt-8">
+              <div className="grid gap-4 sm:grid-cols-2 text-left max-w-xl mx-auto text-sm text-slate-300">
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-blue-300">✓</span>
+                  <span>Unlimited AI Drafting & Suggestion</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-blue-300">✓</span>
+                  <span>Autopilot Scheduler Slots</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-blue-300">✓</span>
+                  <span>Custom AI Post Refinement</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-blue-300">✓</span>
+                  <span>1 Connected LinkedIn Profile</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

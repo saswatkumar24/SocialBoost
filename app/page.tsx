@@ -17,12 +17,9 @@ export default function Home() {
       <Navbar />
       <main className="flex-1">
         <Hero />
-        <LogoCloud />
         <Features />
         <HowItWorks />
         <AIShowcase />
-        <Stats />
-        <Testimonials />
         <Pricing />
         <FAQ />
         <CTA />
