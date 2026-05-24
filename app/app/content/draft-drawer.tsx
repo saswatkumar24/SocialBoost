@@ -229,11 +229,16 @@ export default function DraftDrawer({
 
           {publishState.status === "success" && (
             <div className="rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">
-              <div className="font-medium">Posted to LinkedIn.</div>
+              <div className="font-medium">🚀 Post successful!</div>
               {publishState.postUrn && (
-                <div className="mt-0.5 break-all text-xs text-emerald-200/80">
-                  {publishState.postUrn}
-                </div>
+                <a
+                  href={`https://www.linkedin.com/feed/update/${publishState.postUrn}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-cyan-300 hover:text-cyan-200 underline mt-1.5"
+                >
+                  View published post on LinkedIn ↗
+                </a>
               )}
             </div>
           )}

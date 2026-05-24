@@ -205,7 +205,7 @@ export default function Composer({
       if (res.ok && res.postUrn) {
         const url = `https://www.linkedin.com/feed/update/${res.postUrn}`;
         setPostUrl(url);
-        setFeedback({ kind: "success", message: "🚀 Successfully published to LinkedIn!" });
+        setFeedback({ kind: "success", message: "🚀 Post successful!" });
         setBody(""); // Clear the text area after successful post
       } else {
         setFeedback({

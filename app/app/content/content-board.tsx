@@ -56,13 +56,15 @@ export default function ContentBoard({
 
   const [customTopicInput, setCustomTopicInput] = useState("");
   const [customDetailsInput, setCustomDetailsInput] = useState("");
+  const [customPostText, setCustomPostText] = useState("");
+  const [generatingDraft, setGeneratingDraft] = useState(false);
   const [customError, setCustomError] = useState<string | null>(null);
 
   const [postingInstantly, setPostingInstantly] = useState(false);
   const [instantPostFeedback, setInstantPostFeedback] = useState<{ kind: "success" | "error"; message: string } | null>(null);
   const [instantPostUrl, setInstantPostUrl] = useState<string | null>(null);
 
-  async function handlePostInstantly() {
+  async function handleEnhancePost() {
     setCustomError(null);
     setInstantPostFeedback(null);
     setInstantPostUrl(null);
@@ -74,7 +76,7 @@ export default function ContentBoard({
       return;
     }
 
-    setPostingInstantly(true);
+    setGeneratingDraft(true);
     try {
       const customTopic: BoardTopic = {
         title: topic,
@@ -86,28 +88,45 @@ export default function ContentBoard({
       
       const draftRes = await draftPostAction(customTopic);
       if (draftRes.error || !draftRes.body) {
-        setInstantPostFeedback({
-          kind: "error",
-          message: draftRes.error ?? "Failed to generate AI post content.",
-        });
-        setPostingInstantly(false);
+        setCustomError(draftRes.error ?? "Failed to generate AI post content.");
         return;
       }
+      setCustomPostText(draftRes.body);
+    } catch (e) {
+      setCustomError("An unexpected error occurred during generation.");
+    } finally {
+      setGeneratingDraft(false);
+    }
+  }
 
-      const pubRes = await publishPostAction({ body: draftRes.body });
+  async function handlePostInstantly() {
+    setCustomError(null);
+    setInstantPostFeedback(null);
+    setInstantPostUrl(null);
+
+    const postContent = customPostText.trim();
+    if (!postContent) {
+      setCustomError("Post content cannot be empty.");
+      return;
+    }
+
+    setPostingInstantly(true);
+    try {
+      const pubRes = await publishPostAction({ body: postContent });
       if (pubRes.ok && pubRes.postUrn) {
         const url = `https://www.linkedin.com/feed/update/${pubRes.postUrn}`;
         setInstantPostUrl(url);
         setInstantPostFeedback({
           kind: "success",
-          message: "🚀 Successfully generated and published your post to LinkedIn!",
+          message: "🚀 Post successful!",
         });
         setCustomTopicInput("");
         setCustomDetailsInput("");
+        setCustomPostText("");
       } else {
         setInstantPostFeedback({
           kind: "error",
-          message: pubRes.error ?? "Failed to publish generated post to LinkedIn.",
+          message: pubRes.error ?? "Failed to publish post to LinkedIn.",
         });
       }
     } catch (e) {
@@ -192,28 +211,62 @@ export default function ContentBoard({
             <p className="text-xs text-rose-300">⚠️ {customError}</p>
           )}
 
+          {/* Editable AI Generated Post Box */}
+          {(customPostText !== "" || generatingDraft) && (
+            <div className="space-y-1.5 animate-fadeIn">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-500">
+                AI Generated / Editable Post Content
+              </label>
+              <textarea
+                value={customPostText}
+                onChange={(e) => setCustomPostText(e.target.value)}
+                placeholder="Your generated post will appear here. Feel free to edit..."
+                rows={6}
+                className="w-full rounded-xl border border-white/[0.08] bg-zinc-950/60 px-4 py-3 text-sm leading-relaxed text-white focus:outline-none focus:border-violet-500 transition-colors placeholder:text-zinc-600"
+                disabled={generatingDraft}
+              />
+              <div className="flex justify-between items-center text-xs text-zinc-500 px-1">
+                <span>{customPostText.length} characters</span>
+                {customPostText.length > 3000 && (
+                  <span className="text-rose-400 font-semibold">⚠️ Exceeds LinkedIn 3000 character limit</span>
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="flex flex-col gap-4 pt-1">
-            <div className="flex justify-end">
+            <div className="flex justify-end gap-3">
+              {/* AI Enhance Post Button */}
               <button
                 type="button"
-                onClick={handlePostInstantly}
-                disabled={postingInstantly || !customTopicInput.trim()}
-                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 px-5 py-2.5 text-xs font-semibold text-white shadow-lg transition-all hover:opacity-95 disabled:opacity-50"
+                onClick={handleEnhancePost}
+                disabled={generatingDraft || !customTopicInput.trim() || postingInstantly}
+                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-violet-500 via-fuchsia-500 to-cyan-500 px-5 py-2.5 text-xs font-semibold text-white shadow-lg transition-all hover:opacity-95 disabled:opacity-50"
               >
                 <span className="relative z-10 inline-flex items-center gap-2">
-                  {postingInstantly ? (
-                    <svg className="h-3.5 w-3.5 animate-spin" viewBox="0 0 24 24" fill="none">
-                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity="0.25" strokeWidth="4" />
-                      <path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-                    </svg>
-                  ) : (
-                    <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4v11H3v-11zM10 9.5h3.84v1.5h.05c.54-1 1.85-2.06 3.81-2.06 4.07 0 4.82 2.68 4.82 6.16V20.5h-4v-4.7c0-1.12-.02-2.56-1.56-2.56-1.57 0-1.81 1.22-1.81 2.48V20.5h-4v-11z" />
-                    </svg>
-                  )}
-                  <span>{postingInstantly ? "Publishing..." : "Post Instantly"}</span>
+                  {generatingDraft ? <Spinner /> : <SparkleIcon />}
+                  <span>{generatingDraft ? "Generating..." : "AI Enhance Post"}</span>
                 </span>
               </button>
+
+              {/* Post Instantly Button */}
+              {(customPostText.trim() !== "" || postingInstantly) && (
+                <button
+                  type="button"
+                  onClick={handlePostInstantly}
+                  disabled={postingInstantly || generatingDraft || customPostText.trim() === ""}
+                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 px-5 py-2.5 text-xs font-semibold text-white shadow-lg transition-all hover:opacity-95 disabled:opacity-50"
+                >
+                  <span className="relative z-10 inline-flex items-center gap-2">
+                    {postingInstantly ? <Spinner /> : (
+                      <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4v11H3v-11zM10 9.5h3.84v1.5h.05c.54-1 1.85-2.06 3.81-2.06 4.07 0 4.82 2.68 4.82 6.16V20.5h-4v-4.7c0-1.12-.02-2.56-1.56-2.56-1.57 0-1.81 1.22-1.81 2.48V20.5h-4v-11z" />
+                      </svg>
+                    )}
+                    <span>{postingInstantly ? "Publishing..." : "Post Instantly"}</span>
+                  </span>
+                </button>
+              )}
             </div>
 
             {/* Instant Post Feedback */}
