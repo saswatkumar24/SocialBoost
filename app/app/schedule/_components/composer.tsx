@@ -5,6 +5,7 @@ import Link from "next/link";
 import {
   draftPostAction,
   loadTopicsAction,
+  publishPostAction,
 } from "@/app/app/content/actions";
 import type { TopicSuggestion } from "@/lib/creator-profile-shared";
 import { CONTENT_CATEGORIES } from "@/lib/creator-profile-shared";
@@ -184,6 +185,38 @@ export default function Composer({
       setFeedback({ kind: "error", message: "An unexpected error occurred during refinement." });
     } finally {
       setRefinePending(false);
+    }
+  };
+
+  const [postNowPending, setPostNowPending] = useState(false);
+  const [postUrl, setPostUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    setPostUrl(null);
+  }, [body, activeTab]);
+
+  const handlePostNow = async () => {
+    if (!body.trim() || postNowPending) return;
+    setPostNowPending(true);
+    setPostUrl(null);
+    setFeedback({ kind: "idle", message: "" });
+    try {
+      const res = await publishPostAction({ body });
+      if (res.ok && res.postUrn) {
+        const url = `https://www.linkedin.com/feed/update/${res.postUrn}`;
+        setPostUrl(url);
+        setFeedback({ kind: "success", message: "🚀 Successfully published to LinkedIn!" });
+        setBody(""); // Clear the text area after successful post
+      } else {
+        setFeedback({
+          kind: "error",
+          message: res.error ?? "Failed to publish post to LinkedIn.",
+        });
+      }
+    } catch (e) {
+      setFeedback({ kind: "error", message: "An unexpected error occurred while posting." });
+    } finally {
+      setPostNowPending(false);
     }
   };
 
@@ -382,7 +415,7 @@ export default function Composer({
 
   const charCount = body.length;
   const overLimit = charCount > MAX_QUEUE_BODY;
-  const busy = draftPending || actionPending;
+  const busy = draftPending || actionPending || postNowPending;
 
   const hasUnsavedInterests =
     JSON.stringify([...selectedInterests].sort()) !==
@@ -435,7 +468,19 @@ export default function Composer({
                 : "border-rose-400/30 bg-rose-500/10 text-rose-100"
             }`}
           >
-            {feedback.message}
+            <div className="flex flex-col gap-1">
+              <div>{feedback.message}</div>
+              {feedback.kind === "success" && postUrl && (
+                <a
+                  href={postUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-cyan-300 hover:text-cyan-200 underline mt-1.5"
+                >
+                  View published post on LinkedIn ↗
+                </a>
+              )}
+            </div>
           </div>
         )}
 
@@ -682,7 +727,7 @@ export default function Composer({
               )}
             </div>
 
-            <div className="flex justify-end border-t border-white/[0.06] pt-4">
+            <div className="flex justify-end border-t border-white/[0.06] pt-4 gap-3">
               <button
                 type="button"
                 onClick={handleScheduleFixed}
@@ -690,6 +735,14 @@ export default function Composer({
                 className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet-500 via-fuchsia-500 to-cyan-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-violet-500/25 transition-all hover:opacity-95 disabled:opacity-50"
               >
                 {actionPending ? "Processing..." : isRecurring ? "Schedule Recurring Post" : "Schedule Standalone Post"}
+              </button>
+              <button
+                type="button"
+                onClick={handlePostNow}
+                disabled={busy || !body.trim() || overLimit}
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 transition-all hover:opacity-95 disabled:opacity-50"
+              >
+                {postNowPending ? "Posting..." : "Post Now"}
               </button>
             </div>
           </div>

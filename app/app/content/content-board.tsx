@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 
 import type { TopicSuggestion } from "@/lib/creator-profile-shared";
 
-import { loadTopicsAction } from "./actions";
+import { loadTopicsAction, draftPostAction, publishPostAction } from "./actions";
 import DraftDrawer from "./draft-drawer";
 import { type SampleTopic, SPOTLIGHT_TEMPLATES } from "./sample-topics";
 
@@ -58,8 +58,14 @@ export default function ContentBoard({
   const [customDetailsInput, setCustomDetailsInput] = useState("");
   const [customError, setCustomError] = useState<string | null>(null);
 
-  function handleGenerateCustom() {
+  const [postingInstantly, setPostingInstantly] = useState(false);
+  const [instantPostFeedback, setInstantPostFeedback] = useState<{ kind: "success" | "error"; message: string } | null>(null);
+  const [instantPostUrl, setInstantPostUrl] = useState<string | null>(null);
+
+  async function handlePostInstantly() {
     setCustomError(null);
+    setInstantPostFeedback(null);
+    setInstantPostUrl(null);
     const topic = customTopicInput.trim();
     const details = customDetailsInput.trim();
 
@@ -68,15 +74,50 @@ export default function ContentBoard({
       return;
     }
 
-    const customTopic: BoardTopic = {
-      title: topic,
-      angle: details,
-      format: "story",
-      hook: "",
-      category: "Custom",
-    };
+    setPostingInstantly(true);
+    try {
+      const customTopic: BoardTopic = {
+        title: topic,
+        angle: details,
+        format: "story",
+        hook: "",
+        category: "Custom",
+      };
+      
+      const draftRes = await draftPostAction(customTopic);
+      if (draftRes.error || !draftRes.body) {
+        setInstantPostFeedback({
+          kind: "error",
+          message: draftRes.error ?? "Failed to generate AI post content.",
+        });
+        setPostingInstantly(false);
+        return;
+      }
 
-    openDraft(customTopic);
+      const pubRes = await publishPostAction({ body: draftRes.body });
+      if (pubRes.ok && pubRes.postUrn) {
+        const url = `https://www.linkedin.com/feed/update/${pubRes.postUrn}`;
+        setInstantPostUrl(url);
+        setInstantPostFeedback({
+          kind: "success",
+          message: "🚀 Successfully generated and published your post to LinkedIn!",
+        });
+        setCustomTopicInput("");
+        setCustomDetailsInput("");
+      } else {
+        setInstantPostFeedback({
+          kind: "error",
+          message: pubRes.error ?? "Failed to publish generated post to LinkedIn.",
+        });
+      }
+    } catch (e) {
+      setInstantPostFeedback({
+        kind: "error",
+        message: "An unexpected error occurred during creation and publishing.",
+      });
+    } finally {
+      setPostingInstantly(false);
+    }
   }
 
   function loadNewSet() {
@@ -151,19 +192,54 @@ export default function ContentBoard({
             <p className="text-xs text-rose-300">⚠️ {customError}</p>
           )}
 
-          <div className="flex justify-end pt-1">
-            <button
-              type="button"
-              onClick={handleGenerateCustom}
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-violet-500 via-fuchsia-500 to-cyan-500 px-4.5 py-2 text-xs font-semibold text-white shadow-lg transition-all hover:opacity-95"
-            >
-              <span className="relative z-10 inline-flex items-center gap-2">
-                <svg className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="currentColor">
-                  <path d="M8 1.5l1.5 3.5 3.5 1.5-3.5 1.5L8 11.5 6.5 8 3 6.5 6.5 5 8 1.5z" />
-                </svg>
-                <span>AI Generate Post</span>
-              </span>
-            </button>
+          <div className="flex flex-col gap-4 pt-1">
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={handlePostInstantly}
+                disabled={postingInstantly || !customTopicInput.trim()}
+                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 px-5 py-2.5 text-xs font-semibold text-white shadow-lg transition-all hover:opacity-95 disabled:opacity-50"
+              >
+                <span className="relative z-10 inline-flex items-center gap-2">
+                  {postingInstantly ? (
+                    <svg className="h-3.5 w-3.5 animate-spin" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity="0.25" strokeWidth="4" />
+                      <path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+                    </svg>
+                  ) : (
+                    <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4v11H3v-11zM10 9.5h3.84v1.5h.05c.54-1 1.85-2.06 3.81-2.06 4.07 0 4.82 2.68 4.82 6.16V20.5h-4v-4.7c0-1.12-.02-2.56-1.56-2.56-1.57 0-1.81 1.22-1.81 2.48V20.5h-4v-11z" />
+                    </svg>
+                  )}
+                  <span>{postingInstantly ? "Publishing..." : "Post Instantly"}</span>
+                </span>
+              </button>
+            </div>
+
+            {/* Instant Post Feedback */}
+            {instantPostFeedback && (
+              <div
+                className={`rounded-xl border p-4 text-xs ${
+                  instantPostFeedback.kind === "success"
+                    ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-100"
+                    : "border-rose-400/30 bg-rose-500/10 text-rose-100"
+                }`}
+              >
+                <div className="flex flex-col gap-1">
+                  <div>{instantPostFeedback.message}</div>
+                  {instantPostFeedback.kind === "success" && instantPostUrl && (
+                    <a
+                      href={instantPostUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-cyan-300 hover:text-cyan-200 underline mt-1.5"
+                    >
+                      View published post on LinkedIn ↗
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
